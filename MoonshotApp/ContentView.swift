@@ -12,8 +12,11 @@ struct ContentView: View {
     let missions: [Mission] = Bundle.main.decode("missions.json")
     
     let columns = [
-        GridItem(.adaptive(minimum: 150))
+        GridItem(.adaptive(minimum: 180))
     ]
+    
+    @State var mode = "List"
+    @State var width1 = 400.0
     
     var body: some View {
         NavigationStack {
@@ -21,7 +24,7 @@ struct ContentView: View {
                 LazyVGrid(columns: columns) {
                     ForEach(missions) { mission in
                         NavigationLink {
-                            Text("detail view")
+                            MissionView(mission: mission, astronauts: astronauts)
                         } label: {
                             VStack {
                                 Image(mission.image)
@@ -51,15 +54,31 @@ struct ContentView: View {
                             )
                             
                         }
+                        .padding(.bottom)
+                        
                     }
                 }
                 .padding([.horizontal, .bottom])
+                .frame(maxWidth: width1) // aquí controlas el ancho del grid
+                .frame(maxWidth: .infinity)
             }
             .navigationTitle(
                 "Moonshot"
             )
             .background(.darkBackground)
             .preferredColorScheme(.dark)
+            .toolbar {
+                Button(mode) {
+                    if(mode == "List"){
+                        mode = "Grid"
+                        width1 = 350
+                    } else {
+                        mode = "List"
+                        width1 = 400
+                    }
+                }
+                
+            }
         }
     }
 }
