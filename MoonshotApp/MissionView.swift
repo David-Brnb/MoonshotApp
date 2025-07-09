@@ -8,11 +8,6 @@
 import SwiftUI
 
 struct MissionView: View {
-    struct CrewMember {
-        let role: String
-        let astronaut: Astronaut
-    }
-    
     
     let mission: Mission
     let crew: [CrewMember]
@@ -51,36 +46,10 @@ struct MissionView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(crew, id: \.role) { member in
-                            NavigationLink {
-                                AstronautView(astronaut: member.astronaut)
-                                
-                            } label: {
-                                HStack {
-                                    Image(member.astronaut.id)
-                                        .resizable()
-                                        .frame(width: 104, height: 72)
-                                        .clipShape(.capsule)
-                                        .overlay(
-                                            Capsule()
-                                                .strokeBorder(Color.white, lineWidth: 1)
-                                        )
-                                    
-                                    VStack(alignment: .leading) {
-                                        Text(member.astronaut.name)
-                                            .foregroundStyle(.white)
-                                            .font(.headline)
-                                        
-                                        Text(member.role)
-                                            .foregroundStyle(.white.opacity(0.5))
-                                    }
-                                        
-                                }
-                                .padding(.horizontal)
-                            }
+                            AstronautIcon(member: member)
                         }
                     }
                 }
-                    
             }
             .padding(.bottom)
         }
